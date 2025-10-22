@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="df3fb8c7-9f3b-47f3-b606-031cbfff64f5" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="dataweaveexamplesFlow" doc:id="872fecf6-04c5-4797-82bc-86c04620785c" >
+		<http:listener doc:name="Listener" doc:id="83e2c9c2-bf32-461f-8036-e31319f206cf" config-ref="HTTP_Listener_config" path="/headers/{uuid}"/>
+		<ee:transform doc:name="Transform Message" doc:id="c35aad64-849f-402d-829e-8575e154add6" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+"uuid": attributes.uriParams.'uuid'
+}
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="043bf194-5fd2-4990-b560-ccb060d276d6" message="#[payload]"/>
+	</flow>
+</mule>
