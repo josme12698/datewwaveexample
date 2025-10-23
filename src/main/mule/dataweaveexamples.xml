@@ -16,11 +16,13 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 output application/json
 ---
 {
-	"uuid": attributes.uriParams.'uuid',
-	"test": "test"
+	"field1": "test1",
+	"field2": "test2",
+	"field3": "test3"
 }
 ]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="906dbdde-7892-4f06-aa8c-3ec4e356dda5" message="#[payload]"/>
 	</flow>
 </mule>
