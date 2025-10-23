@@ -9,18 +9,18 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 		<http:listener-connection host="0.0.0.0" port="8081" />
 	</http:listener-config>
 	<flow name="dataweaveexamplesFlow" doc:id="872fecf6-04c5-4797-82bc-86c04620785c" >
-		<http:listener doc:name="Listener" doc:id="83e2c9c2-bf32-461f-8036-e31319f206cf" config-ref="HTTP_Listener_config" path="/headers/{uuid}"/>
+		<http:listener doc:name="Listener" doc:id="83e2c9c2-bf32-461f-8036-e31319f206cf" config-ref="HTTP_Listener_config" path="/headers/{uuid}" allowedMethods="GET"/>
 		<ee:transform doc:name="Transform Message" doc:id="c35aad64-849f-402d-829e-8575e154add6" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
 ---
 {
-"uuid": attributes.uriParams.'uuid'
+	"uuid": attributes.uriParams.'uuid',
+	"test": "test"
 }
 ]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
-		<logger level="INFO" doc:name="Logger" doc:id="043bf194-5fd2-4990-b560-ccb060d276d6" message="#[payload]"/>
 	</flow>
 </mule>
